@@ -15,7 +15,7 @@ module.exports = {
     createUser: (req,res)=>{
         const body = req.body;
         const salt = genSaltSync(10);
-        body.usersPassword = hashSync(body.usersPassword,salt);
+        body.userPassword = hashSync(body.userPassword,salt);
         create(body, (err,results)=>{
             if(err){
                 console.log(err);
@@ -26,13 +26,13 @@ module.exports = {
             }
             return res.status(200).json({
                 success:1,
-                data : results
+                data : body
             });
         });
     },
     getUserByUserId: (req,res) =>{
-        const usersId = req.params.id;
-        getUserByUserId(usersId,(err,results)=>{
+        const id = req.params.id;
+        getUserByUserId(id,(err,results)=>{
             if(err){
                 console.log(err);
                 return;
@@ -64,7 +64,7 @@ module.exports = {
     updateUser: (req,res)=>{
         const body = req.body;
         const salt = genSaltSync(10);
-        body.usersPassword = hashSync(body.usersPassword,salt);
+        body.userPassword = hashSync(body.userPassword,salt);
         updateUser(body,(err,results)=>{
             if(err){
                 console.log(err);
@@ -103,7 +103,7 @@ module.exports = {
     },
     login: (req,res) => {
         const body = req.body;
-        getUserByUserEmail(body.usersEmail, (err, results) => {
+        getUserByUserEmail(body.userEmail, (err, results) => {
             if(err){
                 console.log(err);
             }
@@ -113,17 +113,10 @@ module.exports = {
                     data: "INVALID EMAIL OR PASSWORD11111"
                 });
             }
-
-            //const salt = genSaltSync(10);
-            //hash=hashSync(body.usersPassword,salt)
-            //console.log(hash)
-            var sonuc = bcrypt.compare(body.usersPassword,results.usersPassword);
-            //console.log(sonuc)
-            //console.log(body.usersPassword)
-            //console.log(results.usersPassword)
+            var sonuc = bcrypt.compare(body.userPassword,results.userPassword);
             if(sonuc){
-                results.usersPassword = undefined;
-                const jsontoken = sign({user:results.usersEmail},"mtskbackend",{expiresIn: "24h"});
+                results.userPassword = undefined;
+                const jsontoken = sign({user:results.userEmail},"mtskbackend",{expiresIn: "24h"});
                 return res.json({
                     success:1,
                     message: "LOGIN SUCCES!!",

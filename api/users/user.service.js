@@ -2,16 +2,16 @@ const pool = require('../../config/database');
 
 module.exports = {
     create:(data,callback) => {
-        pool.query('insert into tbl_users (usersName,usersSurname,usersEmail,usersTelephone,usersTC,usersPassword,usersIsActive,usersSex) values(?,?,?,?,?,?,?,?)',
+        pool.query('insert into USERS (userName,userSurname,userEmail,userTelephone,userTC,userPassword,userActive,userGender) values(?,?,?,?,?,?,?,?)',
         [
-        data.usersName,
-        data.usersSurname,
-        data.usersEmail,
-        data.usersTelephone,
-        data.usersTC,
-        data.usersPassword,
-        data.usersIsActive,
-        data.usersSex
+        data.userName,
+        data.userSurname,
+        data.userEmail,
+        data.userTelephone,
+        data.userTC,
+        data.userPassword,
+        data.userActive,
+        data.userGender
         ],
         (error,results,fields)=>{
             if(error){
@@ -22,7 +22,7 @@ module.exports = {
         );
     },
     getUsers: callBack => {
-        pool.query('select usersId,usersName,usersSurname,usersEmail,usersTelephone,usersTC,usersSex,usersPassword,usersIsActive from tbl_users', 
+        pool.query('select id,userName,userSurname,userEmail,userTelephone,userTC,userGender,userPassword,userActive from USERS', 
         [],
         (error,results,fields) =>{
             if(error){
@@ -31,8 +31,8 @@ module.exports = {
             return callBack(null,results);
         });
     },
-    getUserByUserId: (usersId,callBack)=>{
-        pool.query('select usersId,usersName,usersSurname,usersEmail,usersTelephone,usersTC,usersSex,usersPassword,usersIsActive from tbl_users where usersId=?   ',[usersId],
+    getUserByUserId: (id,callBack)=>{
+        pool.query('select id,userName,userSurname,userEmail,userTelephone,userTC,userGender,userPassword,userActive from USERS where id=?   ',[id],
         (error,results,fields) =>{
             if(error){
                 callBack(error);
@@ -42,17 +42,17 @@ module.exports = {
         );
     },
     updateUser: (data,callBack) => {
-        pool.escape.query('update tbl_users set usersName =?,usersSurname=?,usersEmail=?,usersTelephone=?,usersTC=?,usersSex=?,usersPassword=?,usersIsActive=? where usersId =?',
+        pool.escape.query('update USERS set userName =?,userSurname=?,userEmail=?,userTelephone=?,userTC=?,userGender=?,userPassword=?,userActive=? where id =?',
         [
-          data.usersId,
-          data.usersName,
-          data.usersSurname,
-          data.usersEmail,
-          data.usersTelephone,
-          data.usersTC,
-          data.usersPassword,
-          data.usersIsActive,
-          data.usersSex
+          data.id,
+          data.userName,
+          data.userSurname,
+          data.userEmail,
+          data.userTelephone,
+          data.userTC,
+          data.userPassword,
+          data.userActive,
+          data.userGender
         ],
         (error,results,fields) =>{
             if(error){
@@ -63,8 +63,8 @@ module.exports = {
     );    
     },
     deleteUser: (data,callBack) =>{
-        pool.query('delete from tbl_users where usersId = ?',
-        [data.usersId],
+        pool.query('delete from USERS where id = ?',
+        [data.id],
         (error,results,fields) =>{
             if(error){
                 callBack(error);
@@ -73,9 +73,9 @@ module.exports = {
           }            
         );
     },
-    getUserByUserEmail: (usersEmail, callBack) => {
-        pool.escape.query('select * from tbl_users where usersEmail = ?',
-        [usersEmail],
+    getUserByUserEmail: (userEmail, callBack) => {
+        pool.query('select * from USERS where userEmail = ?',
+        [userEmail],
         (error,results,fields) =>{
             if(error){
                 callBack(error);

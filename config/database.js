@@ -5,7 +5,7 @@ const pool = createPool({
     port: 3306,
     user: "admin",
     password: "admin159",
-    database: "mtsk",
+    database: "MTSK2",
     connectionLimit:10 
 });
 
