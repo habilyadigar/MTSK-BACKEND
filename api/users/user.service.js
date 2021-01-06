@@ -74,7 +74,7 @@ module.exports = {
         );
     },
     getUserByUserEmail: (usersEmail, callBack) => {
-        pool.query('select * from tbl_users where usersEmail = ?',
+        pool.escape.query('select * from tbl_users where usersEmail = ?',
         [usersEmail],
         (error,results,fields) =>{
             if(error){

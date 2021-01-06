@@ -118,9 +118,9 @@ module.exports = {
             //hash=hashSync(body.usersPassword,salt)
             //console.log(hash)
             var sonuc = bcrypt.compare(body.usersPassword,results.usersPassword);
-            console.log(sonuc)
-            console.log(body.usersPassword)
-            console.log(results.usersPassword)
+            //console.log(sonuc)
+            //console.log(body.usersPassword)
+            //console.log(results.usersPassword)
             if(sonuc){
                 results.usersPassword = undefined;
                 const jsontoken = sign({user:results.usersEmail},"mtskbackend",{expiresIn: "24h"});
