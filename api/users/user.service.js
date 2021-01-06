@@ -44,15 +44,16 @@ module.exports = {
     updateUser: (data,callBack) => {
         pool.escape.query('update tblUsers set userName =?,userSurname=?,userEmail=?,userTelephone=?,userTC=?,userGender=?,userPassword=?,userActive=? where userID =?',
         [
-          data.userID,
+          
           data.userName,
           data.userSurname,
           data.userEmail,
           data.userTelephone,
           data.userTC,
-          data.userPassword,
-          data.userActive,
-          data.userGender
+          data.userGender,
+          data.userPassword,    
+          data.userActive,       
+          data.userID
         ],
         (error,results,fields) =>{
             if(error){
@@ -63,9 +64,11 @@ module.exports = {
     );    
     },
     deleteUser: (data,callBack) =>{
+        
         pool.query('DELETE FROM tblUsers WHERE userID = ?',
         [data.UserID],
         (error,results,fields) =>{
+            console.log(results)
             if(error){
                 callBack(error);
             }
