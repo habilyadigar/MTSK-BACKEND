@@ -31,8 +31,8 @@ module.exports = {
         });
     },
     getUserByUserId: (req,res) =>{
-        const id = req.params.id;
-        getUserByUserId(id,(err,results)=>{
+        const userID = req.params.userID;
+        getUserByUserId(userID, (err,results)=>{
             if(err){
                 console.log(err);
                 return;
@@ -83,13 +83,13 @@ module.exports = {
         });
     },
     deleteUser: (req,res)=>{
-        const data = req.body;
+        var data = req.body;
         deleteUser(data, (err,results)=>{
             if(err){
                 console.log(err);
                 return;
-            }
-            if(!results){
+            }      
+            if(!results){             
                 return res.json({
                     success:0,
                     message: "USER NOT FOUND"
