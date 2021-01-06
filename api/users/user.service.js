@@ -42,7 +42,7 @@ module.exports = {
         );
     },
     updateUser: (data,callBack) => {
-        pool.query('update tbl_users set usersName =?,usersSurname=?,usersEmail=?,usersTelephone=?,usersTC=?,usersSex=?,usersPassword=?,usersIsActive=? where usersId =?',
+        pool.escape.query('update tbl_users set usersName =?,usersSurname=?,usersEmail=?,usersTelephone=?,usersTC=?,usersSex=?,usersPassword=?,usersIsActive=? where usersId =?',
         [
           data.usersId,
           data.usersName,
