@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 /////////////////////////////////
 const userRouter = require('./api/users/user.router')
+const tempOrderRouter = require('./api/temporder/tmporder.router')
 
 
 /////////////////////////////////
@@ -30,6 +31,7 @@ app.use('/', indexRouter);
 //app.use('/users', usersRouter);
 
 app.use('/api/users',userRouter);
+app.use('/api/temporder',tempOrderRouter);
 
 
 

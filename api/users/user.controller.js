@@ -117,7 +117,7 @@ module.exports = {
             var sonuc = bcrypt.compare(body.userPassword,results.userPassword);
             if(sonuc){
                 results.userPassword = undefined;
-                const jsontoken = sign({user:results.userEmail},"mtskbackend",{expiresIn: "24h"});
+                const jsontoken = sign({user:results.userEmail},"mtskbackend",{expiresIn: "365d"});
                 return res.json({
                     success:1,
                     message: "LOGIN SUCCES!!",
