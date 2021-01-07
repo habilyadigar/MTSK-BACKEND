@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const {verify} = require('jsonwebtoken');
+//const { verify } = require('jsonwebtoken');
 
 
 module.exports = {

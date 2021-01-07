@@ -42,9 +42,8 @@ module.exports = {
         );
     },
     updateUser: (data,callBack) => {
-        pool.escape.query('update tblUsers set userName =?,userSurname=?,userEmail=?,userTelephone=?,userTC=?,userGender=?,userPassword=?,userActive=? where userID =?',
+        pool.query('update tblUsers set userName =?,userSurname=?,userEmail=?,userTelephone=?,userTC=?,userGender=?,userPassword=?,userActive=? where userID =?',
         [
-          
           data.userName,
           data.userSurname,
           data.userEmail,
@@ -64,17 +63,15 @@ module.exports = {
     );    
     },
     deleteUser: (data,callBack) =>{
-        
-        pool.query('DELETE FROM tblUsers WHERE userID = ?',
-        [data.UserID],
+        console.log(data.userID)
+        pool.query("DELETE FROM MTSK2.tblUsers WHERE userID = ?",[data.userID],
         (error,results,fields) =>{
             console.log(results)
             if(error){
                 callBack(error);
             }
-            return callBack(null,results[0]); 
-          }            
-        );
+            return callBack(null,results); 
+        });
     },
     getUserByUserEmail: (userEmail, callBack) => {
         pool.query('select * from tblUsers where userEmail = ?',

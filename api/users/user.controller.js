@@ -88,7 +88,8 @@ module.exports = {
             if(err){
                 console.log(err);
                 return;
-            }      
+            }
+            console.log(results)      
             if(!results){             
                 return res.json({
                     success:0,
@@ -110,7 +111,7 @@ module.exports = {
             if(!results){
                 return res.json({
                     success:0,
-                    data: "INVALID EMAIL OR PASSWORD11111"
+                    data: "INVALID EMAIL OR PASSWORD"
                 });
             }
             var sonuc = bcrypt.compare(body.userPassword,results.userPassword);

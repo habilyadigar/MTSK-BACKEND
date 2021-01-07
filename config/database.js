@@ -1,4 +1,5 @@
 const { createPool } = require("mysql")
+require('dotenv/config')
 
 const pool = createPool({
     host: "mtsk.cdyumndry0mt.us-east-2.rds.amazonaws.com",
@@ -6,7 +7,7 @@ const pool = createPool({
     user: "admin",
     password: "admin159",
     database: "MTSK2",
-    connectionLimit:20 
+    connectionLimit:10 
 });
 
 
