@@ -4,7 +4,7 @@ const {
     //getUserByUserId,
     getTmpOrders,
     //updateUser,
-    //deleteUser 
+    deleteTmpOrders 
 } = require("./tmporder.service")
 
 module.exports = {
@@ -36,7 +36,28 @@ module.exports = {
             });
         });
     },
-
+    deleteTempOrder: (req,res)=>{
+        var data = req.body;
+        deleteTmpOrders(data, (err,results)=>{
+            //console.log(results) 
+            //console.log(data) 
+            if(err){
+                console.log(err);
+                return;
+            }
+                 
+            if(!results){
+                return res.json({
+                    success:0,
+                    message: "ORDER OR USER NOT FOUND"
+                });
+            }
+            return res.json({
+                success:1,
+                message: "ORDER DELETED"
+            });
+        });
+    },
 
 
 

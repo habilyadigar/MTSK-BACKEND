@@ -30,6 +30,21 @@ module.exports = {
             return callBack(null,results);
         });
     },
+    deleteTmpOrders: (data,callBack) =>{
+        pool.query("DELETE FROM MTSK2.tblTempOrders WHERE userID = ? AND tempOrderID = ?",
+        [
+        data.userID, 
+        data.tempOrderID
+        ],
+        (error,results,fields) =>{
+            if(error){
+                callBack(error);
+            }
+            console.log(results[0])
+            return callBack(null,results[0]);
+            
+        });
+    }, 
 
 
 
