@@ -114,7 +114,7 @@ module.exports = {
                     data: "INVALID EMAIL OR PASSWORD"
                 });
             }
-            var sonuc = bcrypt.compare(body.userPassword,results.userPassword);
+            var sonuc = bcrypt.compareSync(body.userPassword,results.userPassword);
             if(sonuc){
                 results.userPassword = undefined;
                 const jsontoken = sign({user:results.userEmail},"mtskbackend",{expiresIn: "365d"});
