@@ -4,11 +4,11 @@ const pool = require('../../config/database');
 
 module.exports = {
     add:(data,callback) => {
-        pool.query('insert into tblTempOrders (t_orderPiece,t_orderTotalPrice,t_orderCase,userID) values(?,?,?,?)',
+        pool.query('insert into tblTempOrder (tOrderPiece,tOrderPrice,tOrderCase,userID) values(?,?,?,?)',
         [
-        data.t_orderPiece,
-        data.t_orderTotalPrice,
-        data.t_orderCase,
+        data.torderPiece,
+        data.torderPrice,
+        data.torderCase,
         data.userID,
         ],
         (error,results,fields)=>{
@@ -20,7 +20,7 @@ module.exports = {
         );
     },
     getTmpOrders: callBack => {
-        pool.query('SELECT t_orderPiece,t_orderTotalPrice,t_orderCase,userID from tblTempOrders',
+        pool.query('SELECT tOrderID,userID,tOrderPiece,tOrderPrice,tOrderCase from tblTempOrder',
         //View gelecek. id si x olan kişinin verdiği siparişler şeklinde. 
         [],
         (error,results,fields) =>{
@@ -31,29 +31,19 @@ module.exports = {
         });
     },
     deleteTmpOrders: (data,callBack) =>{
-        pool.query("DELETE FROM MTSK2.tblTempOrders WHERE userID = ? AND tempOrderID = ?",
+        pool.query("DELETE FROM `MTSK`.`tblTempOrder` WHERE (`userID` ='?') AND (`tOrderID`='?');",
         [
         data.userID, 
-        data.tempOrderID
+        data.tOrderID
         ],
         (error,results,fields) =>{
             if(error){
                 callBack(error);
             }
-            console.log(results[0])
-            return callBack(null,results[0]);
-            
+            console.log(results)
+            return callBack(null,results['affectedRows']);          
         });
     }, 
-
-
-
-
-
-
-
-
-
 
     
 }

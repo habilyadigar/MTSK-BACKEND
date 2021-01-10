@@ -12,10 +12,6 @@ const pool = createPool({
 
 
 
-
-
-
-
 //const pool = createPool({
 //    host: process.env.DB_HOST,
 //    port: process.env.DB_PORT,
@@ -24,5 +20,5 @@ const pool = createPool({
 //    database: process.env.DB_NAME,
 //    connectionLimit:10 
 //});
-//
+
 module.exports = pool;
