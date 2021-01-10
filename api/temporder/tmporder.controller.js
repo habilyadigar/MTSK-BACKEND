@@ -39,13 +39,10 @@ module.exports = {
     deleteTempOrder: (req,res)=>{
         var data = req.body;
         deleteTmpOrders(data, (err,results)=>{
-            //console.log(results) 
-            //console.log(data) 
             if(err){
                 console.log(err);
                 return;
-            }
-                 
+            }                
             if(!results){
                 return res.json({
                     success:0,
