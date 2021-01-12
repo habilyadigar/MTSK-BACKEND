@@ -58,7 +58,8 @@ module.exports = {
             if(error){
                 callBack(error);
             }
-            return callBack(null,results[0]);
+            console.log(results)
+            return callBack(null,results["changedRows"]);
         }   
     );    
     },
@@ -74,7 +75,7 @@ module.exports = {
         });
     },
     getUserByUserEmail: (userEmail, callBack) => {
-        pool.query('select * from tblUsers where userEmail = ?',
+        pool.query('select * from tblUsers where userEmail = ? ',
         [userEmail],
         (error,results,fields) =>{
             if(error){
@@ -83,5 +84,7 @@ module.exports = {
             return callBack(null,results[0]);
         }
         );
-    },
+    }
+
+
 };

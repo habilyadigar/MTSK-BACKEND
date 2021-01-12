@@ -10,6 +10,7 @@ const bcrypt = require("bcrypt")
 const {genSaltSync, hashSync, compareSync} = require("bcrypt")
 const { sign } = require("jsonwebtoken");
 const { token } = require("morgan");
+const { jwt_decode} = require("jwt-decode");
 
 module.exports = {
     createUser: (req,res)=>{
@@ -30,8 +31,10 @@ module.exports = {
             });
         });
     },
-    getUserByUserId: (req,res) =>{
-        const userID = req.params.userID;
+    getUserByUserId: (token,res) =>{
+        //console.log(token["decoded"])
+        const userID = token["decoded"].id; 
+        //const userID = req.params.userID;
         getUserByUserId(userID, (err,results)=>{
             if(err){
                 console.log(err);
@@ -117,7 +120,7 @@ module.exports = {
             var sonuc = bcrypt.compareSync(body.userPassword,results.userPassword);
             if(sonuc){
                 results.userPassword = undefined;
-                const jsontoken = sign({user:results.userEmail},"mtskbackend",{expiresIn: "365d"});
+                const jsontoken = sign({user:results.userEmail,id:results.userID},"mtskbackend",{expiresIn: "365d"});
                 return res.json({
                     success:1,
                     message: "LOGIN SUCCES!!",

@@ -21,7 +21,7 @@ module.exports = {
     },
     getTmpOrders: callBack => {
         pool.query('SELECT tOrderID,userID,tOrderPiece,tOrderPrice,tOrderCase from tblTempOrder',
-        //View gelecek. id si x olan kişinin verdiği siparişler şeklinde. 
+        //View gelecek. id si x olan kişinin verdiği siparişler ve adresi şeklinde. 
         [],
         (error,results,fields) =>{
             if(error){
@@ -29,7 +29,8 @@ module.exports = {
             }
             return callBack(null,results);
         });
-    },
+    },    
+
     deleteTmpOrders: (data,callBack) =>{
         pool.query("DELETE FROM `MTSK`.`tblTempOrder` WHERE (`userID` ='?') AND (`tOrderID`='?');",
         [
