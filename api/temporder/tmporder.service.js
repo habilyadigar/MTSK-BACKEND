@@ -19,15 +19,16 @@ module.exports = {
           }
         );
     },
-    getTmpOrders: callBack => {
-        pool.query('SELECT tOrderID,userID,tOrderPiece,tOrderPrice,tOrderCase from tblTempOrder',
-        //View gelecek. id si x olan kişinin verdiği siparişler ve adresi şeklinde. 
-        [],
+    //SELECT tOrderID,userID,tOrderPiece,tOrderPrice,tOrderCase from tblTempOrder
+    //stored procedure ile id yi vererek kullanıcıları çekiyorum.
+    getTmpOrders:(id ,callBack) => {
+        pool.query('call spGetBusket(?)',
+        [id],
         (error,results,fields) =>{
             if(error){
                return callBack(error);
             }
-            return callBack(null,results);
+            return callBack(null,results[0]);
         });
     },    
 

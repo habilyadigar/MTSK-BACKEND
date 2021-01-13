@@ -11,7 +11,6 @@ const {genSaltSync, hashSync, compareSync} = require("bcrypt")
 const { sign } = require("jsonwebtoken");
 const { token } = require("morgan");
 const { checkToken } = require("../../auth/validation");
-const jwt = require('jsonwebtoken');
 const jwt_decode = require('jwt-decode');
 
 module.exports = {

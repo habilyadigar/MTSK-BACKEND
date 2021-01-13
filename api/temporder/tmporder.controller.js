@@ -24,8 +24,10 @@ module.exports = {
             });
         });
     },
-    getTempOrders:(req,res)=>{
-        getTmpOrders((err,results)=>{
+    getTempOrders:(checkToken,res)=>{
+        const id = checkToken["decoded"].id;
+        console.log(id);
+        getTmpOrders(id,(err,results)=>{
             if(err){
                 console.log(err);
                 return;
