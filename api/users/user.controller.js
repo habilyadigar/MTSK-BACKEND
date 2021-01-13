@@ -92,8 +92,12 @@ module.exports = {
         });
     },
     deleteUser: (req,res)=>{
-        var data = req.body;
-        deleteUser(data, (err,results)=>{
+        const authHeader = req.headers.authorization
+        const token = authHeader.split(' ')[1]
+        var decoded = jwt_decode(token);
+        console.log(decoded);
+        const userID = decoded.id;
+        deleteUser(userID, (err,results)=>{
             if(err){
                 console.log(err);
                 return;

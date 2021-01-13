@@ -63,16 +63,16 @@ module.exports = {
         }   
     );    
     },
-    deleteUser: (data,callBack) =>{
-        console.log(data.userID)
-        pool.query("DELETE FROM MTSK2.tblUsers WHERE userID = ?",
-        [data.userID],
+    deleteUser: (id,callBack) =>{
+        //console.log(data.userID)
+        pool.query("DELETE FROM MTSK.tblUsers WHERE userID = ?",
+        [id],
         (error,results,fields) =>{
             console.log(results)
             if(error){
                 callBack(error);
             }
-            return callBack(null,results); 
+            return callBack(null,results["affectedRows"]); 
         });
     },
     getUserByUserEmail: (userEmail, callBack) => {
