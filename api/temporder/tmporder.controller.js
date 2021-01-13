@@ -1,10 +1,9 @@
 const { 
     add, 
-    //getUserByUserEmail,
-    //getUserByUserId,
-    getTmpOrders,
-    getTmpAddress,
-    //updateUser,
+    getAddressCities,
+    //getTmpOrders,
+    getTmpOrdersAndAddress,
+    addAddress,
     deleteTmpOrders 
 } = require("./tmporder.service")
 const jwt_decode = require('jwt-decode');
@@ -15,7 +14,7 @@ module.exports = {
         const body = req.body;
         add(body, (err,results)=>{
             if(err){
-                console.log(err);
+                //console.log(err);
                 return res.status(500).json({
                     success: 0,
                     message: "DATABASE CONNECTION ERROR"
@@ -27,10 +26,11 @@ module.exports = {
             });
         });
     },
+ 
     getTempOrders:(checkToken,res)=>{
         const id = checkToken["decoded"].id;
         //console.log(id);
-        getTmpAddress (id, (err,results)=>{
+        getTmpOrdersAndAddress (id, (err,results)=>{
             if(err){
                 console.log(err);
                 return;
@@ -65,6 +65,39 @@ module.exports = {
             });
         });
     },
+//////////////////////////////ADDRESS//////////////////////////////
+    ADDress: (req,res)=>{
+        const body = req.body;
+        const authHeader = req.headers.authorization
+        const token = authHeader.split(' ')[1]
+        var decoded = jwt_decode(token);
+        //console.log("decoded.id:",decoded.id);
+        body.userID = decoded.id;
+        addAddress(body, (err,results)=>{
+            if(err){
+                return res.status(500).json({
+                    success: 0,
+                    message: "DATABASE CONNECTION ERROR"
+                });
+            }
+            return res.status(200).json({
+                success:1,
+                data : body
+            });
+        });
+    },
+    getAddress:(req,res)=>{
+        getAddressCities ((err,results)=>{
+            if(err){
+                console.log(err);
+                return;
+            }
+            return res.json({
+                success:1,
+                data: results
+            });
+        });
+    }
 
 
 }

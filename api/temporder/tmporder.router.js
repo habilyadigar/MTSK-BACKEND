@@ -1,8 +1,8 @@
 const {
     addOrder, 
-    getUserByUserId,
+    getAddress,
     getTempOrders,
-    updateUser,
+    ADDress,
     deleteTempOrder
 } =require("./tmporder.controller");
 const router = require("express").Router();
@@ -10,10 +10,9 @@ const {checkToken} = require("../../auth/validation");
 
 router.get('/',checkToken,getTempOrders);
 router.post('/',checkToken,addOrder);
-//router.get('/:userID',checkToken,getUserByUserId);
-//router.patch('/',checkToken,updateUser);
+router.get('/cities',checkToken,getAddress);
 router.delete('/',checkToken,deleteTempOrder);
-//router.post('/login',login);
+router.post('/ADDress',checkToken,ADDress);
 
 
 module.exports = router;

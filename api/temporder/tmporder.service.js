@@ -20,19 +20,18 @@ module.exports = {
         );
     },
     //SELECT tOrderID,userID,tOrderPiece,tOrderPrice,tOrderCase from tblTempOrder
-    //stored procedure ile id yi vererek kullanıcıların adresini ve siparişini çekiyorum.
-    getTmpOrders:(id ,callBack) => {
-        pool.query('call spGetBasket(?);',
-        [id],
-        (error,results,fields) =>{
-            if(error){
-               return callBack(error);
-            }
-            return callBack(null,results[0]);
-        });
-    },
-    
-    getTmpAddress: (id ,callBack) => {
+    //getTmpOrders:(id ,callBack) => {
+    //    pool.query('call spGetBasket(?);',
+    //    [id],
+    //    (error,results,fields) =>{
+    //        if(error){
+    //           return callBack(error);
+    //        }
+    //        return callBack(null,results[0]);
+    //    });
+    //},
+    //stored procedure ile id yi vererek kullanıcıların adresini v  siparişini çekiyorum.
+    getTmpOrdersAndAddress: (id ,callBack) => {
         var data = {siparisData:[],addressData : []}
          pool.query('call spGetBasket(?);',[id],
         (err,results)=>{
@@ -67,5 +66,34 @@ module.exports = {
             return callBack(null,results['affectedRows']);          
         });
     }, 
+//////////////////////////////ADDRESS//////////////////////////////
+    
+    getAddressCities: callBack => {
+        //BURAYA views gelecek her şehrin içindeki ilçelerin olduğu...
+        pool.query('select * from tblCities',
+        [],
+        (error,results,fields) =>{
+            if(error){
+               return callBack(error);
+            }
+            return callBack(null,results);
+        });
+    },
+    addAddress:(data,callback) => {
+        pool.query('insert into tblAddress (cityID,districtID,openAddress,userID) values(?,?,?,?)',
+        [
+        data.cityID,
+        data.districtID,
+        data.openAddress,
+        data.userID,
+        ],
+        (error,results,fields)=>{
+            if(error){
+               return callback(error)
+            }
+            return callback(null,results[0])
+          }
+        );
+    }
 
 }
