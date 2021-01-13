@@ -1,5 +1,5 @@
 const pool = require('../../config/database');
-
+let rows_address,rows_basket;
 
 
 module.exports = {
@@ -20,9 +20,9 @@ module.exports = {
         );
     },
     //SELECT tOrderID,userID,tOrderPiece,tOrderPrice,tOrderCase from tblTempOrder
-    //stored procedure ile id yi vererek kullanıcıları çekiyorum.
+    //stored procedure ile id yi vererek kullanıcıların adresini ve siparişini çekiyorum.
     getTmpOrders:(id ,callBack) => {
-        pool.query('call spGetBusket(?)',
+        pool.query('call spGetBasket(?);',
         [id],
         (error,results,fields) =>{
             if(error){
@@ -30,10 +30,31 @@ module.exports = {
             }
             return callBack(null,results[0]);
         });
+    },
+    
+    getTmpAddress: (id ,callBack) => {
+        var data = {siparisData:[],addressData : []}
+         pool.query('call spGetBasket(?);',[id],
+        (err,results)=>{
+            if(err){
+                return callBack(err);
+            }
+            data.siparisData = results[0];
+            pool.query('call spGetUserAddress(?);',[id],
+            (err,results)=>{
+                if(err){
+                    return callBack(err);
+                }
+                data.addressData = results[0];
+                console.log(data)
+                return callBack (null,data);
+            });
+        });
     },    
-
+    //DELETE FROM `MTSK`.`tblTempOrder` WHERE (`userID` ='?') AND (`tOrderID`='?');
     deleteTmpOrders: (data,callBack) =>{
-        pool.query("DELETE FROM `MTSK`.`tblTempOrder` WHERE (`userID` ='?') AND (`tOrderID`='?');",
+        console.log(data);
+        pool.query("call spTempOrderDelete(?,?);",
         [
         data.userID, 
         data.tOrderID
@@ -47,5 +68,4 @@ module.exports = {
         });
     }, 
 
-    
 }

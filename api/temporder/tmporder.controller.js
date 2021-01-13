@@ -3,9 +3,12 @@ const {
     //getUserByUserEmail,
     //getUserByUserId,
     getTmpOrders,
+    getTmpAddress,
     //updateUser,
     deleteTmpOrders 
 } = require("./tmporder.service")
+const jwt_decode = require('jwt-decode');
+const { checkToken } = require("../../auth/validation");
 
 module.exports = {
     addOrder: (req,res)=>{
@@ -26,8 +29,8 @@ module.exports = {
     },
     getTempOrders:(checkToken,res)=>{
         const id = checkToken["decoded"].id;
-        console.log(id);
-        getTmpOrders(id,(err,results)=>{
+        //console.log(id);
+        getTmpAddress (id, (err,results)=>{
             if(err){
                 console.log(err);
                 return;
@@ -39,7 +42,12 @@ module.exports = {
         });
     },
     deleteTempOrder: (req,res)=>{
-        var data = req.body;
+        const data = req.body;
+        const authHeader = req.headers.authorization
+        const token = authHeader.split(' ')[1]
+        var decoded = jwt_decode(token);
+        console.log("decoded.id:",decoded.id);
+        data.userID = decoded.id;
         deleteTmpOrders(data, (err,results)=>{
             if(err){
                 console.log(err);
