@@ -1,5 +1,5 @@
 const pool = require('../../config/database');
-let rows_address,rows_basket;
+
 
 
 module.exports = {

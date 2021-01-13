@@ -7,6 +7,7 @@ const logger = require('morgan');
 /////////////////////////////////
 const userRouter = require('./api/users/user.router')
 const tempOrderRouter = require('./api/temporder/tmporder.router')
+const orderRouter = require('./api/order/order.router')
 
 
 /////////////////////////////////
@@ -32,6 +33,7 @@ app.use('/', indexRouter);
 
 app.use('/api/users',userRouter);
 app.use('/api/temporder',tempOrderRouter);
+app.use('/api/order',orderRouter);
 
 
 
