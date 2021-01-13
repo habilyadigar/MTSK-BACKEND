@@ -38,7 +38,7 @@ module.exports = {
                 callBack(error);
             }
             return callBack(null,results[0]);
-            }       
+            }
         );
     },
     updateUser: (data,callBack) => {
@@ -51,8 +51,8 @@ module.exports = {
           data.userTC,
           data.userGender,
           data.userPassword,    
-          data.userActive,       
-          data.userID
+          data.userActive,
+          data.userID            
         ],
         (error,results,fields) =>{
             if(error){
@@ -65,7 +65,8 @@ module.exports = {
     },
     deleteUser: (data,callBack) =>{
         console.log(data.userID)
-        pool.query("DELETE FROM MTSK2.tblUsers WHERE userID = ?",[data.userID],
+        pool.query("DELETE FROM MTSK2.tblUsers WHERE userID = ?",
+        [data.userID],
         (error,results,fields) =>{
             console.log(results)
             if(error){

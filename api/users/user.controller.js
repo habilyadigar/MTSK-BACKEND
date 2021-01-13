@@ -10,7 +10,9 @@ const bcrypt = require("bcrypt")
 const {genSaltSync, hashSync, compareSync} = require("bcrypt")
 const { sign } = require("jsonwebtoken");
 const { token } = require("morgan");
-const { jwt_decode} = require("jwt-decode");
+const { checkToken } = require("../../auth/validation");
+const jwt = require('jsonwebtoken');
+const jwt_decode = require('jwt-decode');
 
 module.exports = {
     createUser: (req,res)=>{
@@ -32,7 +34,6 @@ module.exports = {
         });
     },
     getUserByUserId: (token,res) =>{
-        //console.log(token["decoded"])
         const userID = token["decoded"].id; 
         //const userID = req.params.userID;
         getUserByUserId(userID, (err,results)=>{
@@ -66,12 +67,17 @@ module.exports = {
     },
     updateUser: (req,res)=>{
         const body = req.body;
+        const authHeader = req.headers.authorization
+        const token = authHeader.split(' ')[1]
+        var decoded = jwt_decode(token);
+        //console.log("decoded.id:",decoded.id);
+        body.userID = decoded.id;
         const salt = genSaltSync(10);
         body.userPassword = hashSync(body.userPassword,salt);
         updateUser(body,(err,results)=>{
             if(err){
                 console.log(err);
-                return false;                
+                return false;
             }
             if(!results){
                 return res.json({
@@ -124,7 +130,7 @@ module.exports = {
                 return res.json({
                     success:1,
                     message: "LOGIN SUCCES!!",
-                    token: jsontoken
+                    token: jsontoken                       
                 });
             }else{
                 return res.json({
