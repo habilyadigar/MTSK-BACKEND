@@ -45,7 +45,7 @@ module.exports = {
                     return callBack(err);
                 }
                 data.addressData = results[0];
-                console.log(data)
+                //console.log(data)
                 return callBack (null,data);
             });
         });
@@ -69,16 +69,24 @@ module.exports = {
 //////////////////////////////ADDRESS//////////////////////////////
     
     getAddressCities: callBack => {
-        //BURAYA views gelecek her şehrin içindeki ilçelerin olduğu...
-        pool.query('SELECT * FROM MTSK.vwCities;',
+        var data ={ cities: [], districts: []}
+        pool.query('SELECT * FROM tblCities;',
         [],
-        (error,results,fields) =>{
+        (error,results,) =>{
             if(error){
                return callBack(error);
             }
-            console.log(results);
-            return callBack(null,results);
-            
+            data.cities = results;
+            pool.query('SELECT * FROM tblDistricts;',
+            [],
+            (error,results) =>{
+                if(error){
+                   return callBack(error);
+                }
+                data.districts = results;
+                
+                return callBack(null,data);              
+            });    
         });
     },
     addAddress:(data,callback) => {

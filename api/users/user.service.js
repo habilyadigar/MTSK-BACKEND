@@ -60,8 +60,8 @@ module.exports = {
             }
             console.log(results)
             return callBack(null,results["changedRows"]);
-        }   
-    );    
+        }
+    );
     },
     deleteUser: (id,callBack) =>{
         //console.log(data.userID)

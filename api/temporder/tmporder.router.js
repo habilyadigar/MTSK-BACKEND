@@ -14,5 +14,4 @@ router.get('/cities',checkToken,getAddress);
 router.post('/delete',checkToken,deleteTempOrder);
 router.post('/ADDress',checkToken,ADDress);
 
-
 module.exports = router;
