@@ -10,7 +10,7 @@ const {checkToken} = require("../../auth/validation");
 
 router.get('/',checkToken,getTempOrders);
 router.post('/',checkToken,addOrder);
-router.get('/cities',checkToken,getAddress);
+router.get('/getaddress',checkToken,getAddress);
 router.post('/delete',checkToken,deleteTempOrder);
 router.post('/ADDress',checkToken,ADDress);
 
