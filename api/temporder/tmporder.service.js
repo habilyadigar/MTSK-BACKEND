@@ -52,7 +52,7 @@ module.exports = {
     },    
     //DELETE FROM `MTSK`.`tblTempOrder` WHERE (`userID` ='?') AND (`tOrderID`='?');
     deleteTmpOrders: (data,callBack) =>{
-        console.log(data);
+        //console.log(data);
         pool.query("call spTempOrderDelete(?,?);",
         [
         data.userID, 
@@ -70,13 +70,15 @@ module.exports = {
     
     getAddressCities: callBack => {
         //BURAYA views gelecek her şehrin içindeki ilçelerin olduğu...
-        pool.query('select * from tblCities',
+        pool.query('SELECT * FROM MTSK.vwCities;',
         [],
         (error,results,fields) =>{
             if(error){
                return callBack(error);
             }
+            console.log(results);
             return callBack(null,results);
+            
         });
     },
     addAddress:(data,callback) => {
