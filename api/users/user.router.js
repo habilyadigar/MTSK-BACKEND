@@ -12,7 +12,7 @@ const {checkToken} = require("../../auth/validation");
 router.get('/all',checkToken,getUsers);
 router.post('/',createUser);
 router.get('/',checkToken,getUserByUserId);
-router.patch('/',checkToken,updateUser);
+router.post('/update',checkToken,updateUser);
 router.delete('/',checkToken,deleteUser);
 router.post('/login',login);
 
