@@ -4,11 +4,10 @@ const pool = require('../../config/database');
 
 module.exports = {
     add:(data,callback) => {
-        pool.query('insert into tblTempOrder (tOrderPiece,tOrderPrice,tOrderCase,userID) values(?,?,?,?)',
+        pool.query('insert into tblTempOrder (tOrderPiece,tOrderPrice,userID) values(?,?,?,?)',
         [
         data.torderPiece,
         data.torderPrice,
-        data.torderCase,
         data.userID,
         ],
         (error,results,fields)=>{
@@ -19,7 +18,7 @@ module.exports = {
           }
         );
     },
-    //SELECT tOrderID,userID,tOrderPiece,tOrderPrice,tOrderCase from tblTempOrder
+    //SELECT tOrderID,userID,tOrderPiece,tOrderPrice from tblTempOrder
     //getTmpOrders:(id ,callBack) => {
     //    pool.query('call spGetBasket(?);',
     //    [id],
@@ -57,6 +56,20 @@ module.exports = {
         [
         data.userID, 
         data.tOrderID
+        ],
+        (error,results,fields) =>{
+            if(error){
+                callBack(error);
+            }
+            console.log(results)
+            return callBack(null,results['affectedRows']);          
+        });
+    }, 
+    deleteAllTmpOrders: (data,callBack) =>{
+        //console.log(data);
+        pool.query("call spClearBasket(?);",
+        [
+        data.userID, 
         ],
         (error,results,fields) =>{
             if(error){

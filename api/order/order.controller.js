@@ -1,6 +1,7 @@
 const { 
     addNewOrder,
-    order 
+    order,
+    addCreditCard 
 } = require("./order.service")
 const jwt_decode = require('jwt-decode');
 const { checkToken } = require("../../auth/validation");
@@ -14,7 +15,7 @@ var format = require('date-format');
 var dateFormat = require('dateformat');
 
 module.exports = {
-    addOrder: (req,res)=>{
+    addOrder:  (req,res)=>{
         //var dt = dateTime.create();
         //var formatted = dt.format('Y-m-d');
         //console.log(formatted);
@@ -23,7 +24,7 @@ module.exports = {
         const authHeader = req.headers.authorization
         const token = authHeader.split(' ')[1]
         var decoded = jwt_decode(token);
-        console.log("decoded.id:",decoded.id);
+        //console.log("decoded.id:",decoded.id);
         body.userID = decoded.id;
         body.orderDate = date;
         addNewOrder(body, (err,results)=>{
@@ -38,6 +39,23 @@ module.exports = {
                 data : body
             });
         });
+        
+        //if (body.paymentID == 2) {
+        //    body["creditCard"][0].userID = decoded.id;
+        //    console.log("BODY:",body["creditCard"][0]);
+        //    await addCreditCard(body["creditCard"][0], (err,results)=>{
+        //        if(err){
+        //            return res.status(500).json({
+        //                success: 0,
+        //                message: "DATABASE CONNECTION ERROR"
+        //            });
+        //        }
+        //        return res.status(200).json({
+        //            success:1,
+        //            data : body["creditCard"][0]
+        //        });    
+        //    });
+        //}
     },
     getOrderXml:(req,res)=>{
         const authHeader = req.headers.authorization

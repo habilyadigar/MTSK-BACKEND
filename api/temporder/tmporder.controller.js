@@ -4,7 +4,8 @@ const {
     //getTmpOrders,
     getTmpOrdersAndAddress,
     addAddress,
-    deleteTmpOrders 
+    deleteTmpOrders,
+    deleteAllTmpOrders 
 } = require("./tmporder.service")
 const jwt_decode = require('jwt-decode');
 const { checkToken } = require("../../auth/validation");
@@ -68,6 +69,37 @@ module.exports = {
             });
         });
     },
+    ClearTempOrder: (req,res)=>{
+        const data = req.body;
+        const authHeader = req.headers.authorization
+        const token = authHeader.split(' ')[1]
+        var decoded = jwt_decode(token);
+        //console.log("decoded.id:",decoded.id);
+        data.userID = decoded.id;
+        deleteAllTmpOrders(data, (err,results)=>{
+            if(err){
+                console.log(err);
+                return;
+            }                
+            if(!results){
+                return res.json({
+                    success:0,
+                    message: "ORDER OR USER NOT FOUND"
+                });
+            }
+            return res.json({
+                success:1,
+                message: "ORDERS CLEARED"
+            });
+        });
+    },
+
+
+
+
+
+
+
 //////////////////////////////ADDRESS//////////////////////////////
     ADDress: (req,res)=>{
         const body = req.body;

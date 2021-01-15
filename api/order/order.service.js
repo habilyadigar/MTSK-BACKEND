@@ -22,6 +22,7 @@ module.exports = {
           }
         );
     },
+
 //SELECT userID,orderPiece,orderDate,orderTotalPrice,addressID,paymentID,shipmentID FROM tblOrders where userID = ?;
     order:(id,callback) => {
         pool.query('call spOrderDetails(?);',[id],
@@ -35,18 +36,26 @@ module.exports = {
     },
 ////////////////////////////CREDIT CARD SERVICES//////////////////////////
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+addCreditCard:(data,callback)=>{
+    pool.query('insert into tblCreditCards (creditCardOwner,creditCardNumber,creditCardMonth,creditCardYear,creditCardCVC,userID) values (?,?,?,?,?,?)',
+    [
+        data.creditCardOwner,
+        data.creditCardNumber,
+        data.creditCardMonth,
+        data.creditCardYear,
+        data.creditCardCVC,
+        data.userID
+    ],
+    (error,results,fields)=>{
+        if(error){
+            console.log(error);
+           return callback(error);
+        }
+        console.log(results);
+        return callback(null,results[0]);
+      }
+    );
 }
+
+
+};
