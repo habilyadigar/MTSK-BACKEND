@@ -4,7 +4,7 @@ const pool = require('../../config/database');
 
 module.exports = {
     add:(data,callback) => {
-        pool.query('insert into tblTempOrder (tOrderPiece,tOrderPrice,userID) values(?,?,?,?)',
+        pool.query('insert into tblTempOrder (tOrderPiece,tOrderPrice,userID) values(?,?,?)',
         [
         data.torderPiece,
         data.torderPrice,
