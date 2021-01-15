@@ -22,14 +22,13 @@ module.exports = {
           }
         );
     },
-
+//SELECT userID,orderPiece,orderDate,orderTotalPrice,addressID,paymentID,shipmentID FROM tblOrders where userID = ?;
     order:(id,callback) => {
-        pool.query('SELECT * FROM tblOrders where userID = ?;',[id],
+        pool.query('SELECT * FROM MTSK.vwUsersOrders;',[id],
             (err,results)=>{
                 if(err){
                     return callback(err);
                 }
-                //console.log(results);
                 return callback(null,results);
             }
         );

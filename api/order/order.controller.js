@@ -7,24 +7,26 @@ const { checkToken } = require("../../auth/validation");
 var dateTime = require('node-datetime');
 const xml2js = require('xml2js');
 const builder = new xml2js.Builder({
-    rootName: 'mtsk',
+    rootName: 'mtsk-xml',
     renderOpts: { pretty: false },
     xmldec : { 'version': '1.0', 'encoding': 'UTF-8', 'standalone': true }
 });
-
+var format = require('date-format');
+var dateFormat = require('dateformat');
 
 module.exports = {
     addOrder: (req,res)=>{
-        var dt = dateTime.create();
-        var formatted = dt.format('Y-m-d');
-        console.log(formatted);
+        //var dt = dateTime.create();
+        //var formatted = dt.format('Y-m-d');
+        //console.log(formatted);
         const body = req.body;
+        var date=dateFormat(new Date(), "yyyy-mm-dd");
         const authHeader = req.headers.authorization
         const token = authHeader.split(' ')[1]
         var decoded = jwt_decode(token);
         console.log("decoded.id:",decoded.id);
         body.userID = decoded.id;
-        body.orderDate = formatted;
+        body.orderDate = date;
         addNewOrder(body, (err,results)=>{
             if(err){
                 return res.status(500).json({
@@ -42,16 +44,18 @@ module.exports = {
         const authHeader = req.headers.authorization
         const token = authHeader.split(' ')[1]
         var decoded = jwt_decode(token);
-        console.log("decoded.id:",decoded.id);
+        //console.log("decoded.id:",decoded.id);
         id = decoded.id;
         order (id,(err,results)=>{
             if(err){
                 console.log(err);
                 return;
             }
+            results[0].orderDate = dateFormat(results[0].orderDate,"yyyy-m-d",true);
+            //console.log(date);
             res.set('Content-Type', 'text/xml');
             try {
-                console.log(results[0].orderDate)
+                //console.log(results[0].orderDate)
                 var xmlObj = builder.buildObject(results[0])
                 res.send(xmlObj)
             } catch (err) {
