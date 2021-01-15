@@ -24,15 +24,23 @@ module.exports = {
     },
 //SELECT userID,orderPiece,orderDate,orderTotalPrice,addressID,paymentID,shipmentID FROM tblOrders where userID = ?;
     order:(id,callback) => {
-        pool.query('SELECT * FROM MTSK.vwUsersOrders;',[id],
+        pool.query('call spOrderDetails(?);',[id],
             (err,results)=>{
                 if(err){
                     return callback(err);
                 }
-                return callback(null,results);
+                return callback(null,results[0]);
             }
         );
-    }
+    },
+////////////////////////////CREDIT CARD SERVICES//////////////////////////
+
+
+
+
+
+
+
 
 
 

@@ -8,8 +8,7 @@ var dateTime = require('node-datetime');
 const xml2js = require('xml2js');
 const builder = new xml2js.Builder({
     rootName: 'mtsk-xml',
-    renderOpts: { pretty: false },
-    xmldec : { 'version': '1.0', 'encoding': 'UTF-8', 'standalone': true }
+    renderOpts: { pretty: false }
 });
 var format = require('date-format');
 var dateFormat = require('dateformat');
@@ -51,15 +50,14 @@ module.exports = {
                 console.log(err);
                 return;
             }
-            results[0].orderDate = dateFormat(results[0].orderDate,"yyyy-m-d",true);
-            //console.log(date);
+            results[0].orderDate = dateFormat(results[0].orderDate,"yyyy-mm-d",true);     
             res.set('Content-Type', 'text/xml');
             try {
-                //console.log(results[0].orderDate)
-                var xmlObj = builder.buildObject(results[0])
-                res.send(xmlObj)
+                //console.log(results);
+                var xmlObj = builder.buildObject(results[0]);
+                res.send(xmlObj);
             } catch (err) {
-                res.sendStatus(400)
+                res.sendStatus(400);
             }
         });
     }

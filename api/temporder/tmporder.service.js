@@ -70,14 +70,14 @@ module.exports = {
     
     getAddressCities: callBack => {
         var data ={ cities: [], districts: []}
-        pool.query('SELECT * FROM tblCities;',
+        pool.query('SELECT * FROM MTSK.vwCities;',
         [],
         (error,results,) =>{
             if(error){
                return callBack(error);
             }
             data.cities = results;
-            pool.query('SELECT * FROM tblDistricts;',
+            pool.query('SELECT * FROM MTSK.vwDistrict;',
             [],
             (error,results) =>{
                 if(error){
@@ -85,7 +85,7 @@ module.exports = {
                 }
                 data.districts = results;
                 
-                return callBack(null,data);              
+                return callBack(null,data);
             });    
         });
     },
