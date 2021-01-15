@@ -4,7 +4,8 @@ const {
     getUserByUserId,
     getUsers,
     updateUser,
-    deleteUser 
+    deleteUser,
+    getUserByUserIdforxml 
 } = require("./user.service")
 const bcrypt = require("bcrypt")
 const {genSaltSync, hashSync, compareSync} = require("bcrypt")
@@ -12,6 +13,12 @@ const { sign } = require("jsonwebtoken");
 const { token } = require("morgan");
 const { checkToken } = require("../../auth/validation");
 const jwt_decode = require('jwt-decode');
+const xml2js = require('xml2js');
+const builder = new xml2js.Builder({
+    rootName: 'mtsk',
+    renderOpts: { pretty: false },
+    xmldec : { 'version': '1.0', 'encoding': 'UTF-8', 'standalone': true }
+});
 
 module.exports = {
     createUser: (req,res)=>{
@@ -32,26 +39,47 @@ module.exports = {
             });
         });
     },
-    getUserByUserId: (token,res) =>{
-        const userID = token["decoded"].id; 
-        //const userID = req.params.userID;
-        getUserByUserId(userID, (err,results)=>{
+    getUserByUserId:(req,res)=>{
+        const authHeader = req.headers.authorization
+        const token = authHeader.split(' ')[1]
+        var decoded = jwt_decode(token);
+        console.log("decoded.id:",decoded.id);
+        userID = decoded.id;
+        getUserByUserIdforxml(userID,(err,results)=>{
             if(err){
                 console.log(err);
                 return;
             }
-            if(!results){
-                return res.json({
-                    success:0,
-                    message: "USER IS NOT FOUND"
-                })
+            res.set('Content-Type', 'text/xml');
+            try {
+                console.log(results)
+                var xmlObj = builder.buildObject(results)
+                res.send(xmlObj)
+            } catch (err) {
+                res.sendStatus(400)
             }
-            return res.json({
-                success:1,
-                data : results
-            });
         });
     },
+    //getUserByUserId: (token,res) =>{
+    //    const userID = token["decoded"].id; 
+    //    //const userID = req.params.userID;
+    //    getUserByUserId(userID, (err,results)=>{
+    //        if(err){
+    //            console.log(err);
+    //            return;
+    //        }
+    //        if(!results){
+    //            return res.json({
+    //                success:0,
+    //                message: "USER IS NOT FOUND"
+    //            })
+    //        }
+    //        return res.json({
+    //            success:1,
+    //            data : results
+    //        });
+    //    });
+    //},
     getUsers:(req,res)=>{
         getUsers((err,results)=>{
             if(err){

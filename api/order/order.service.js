@@ -22,4 +22,24 @@ module.exports = {
           }
         );
     },
+
+    order:(id,callback) => {
+        pool.query('SELECT * FROM tblOrders where userID = ?;',[id],
+            (err,results)=>{
+                if(err){
+                    return callback(err);
+                }
+                //console.log(results);
+                return callback(null,results);
+            }
+        );
+    }
+
+
+
+
+
+
+
+
 }
