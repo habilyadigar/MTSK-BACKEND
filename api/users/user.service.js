@@ -31,27 +31,27 @@ module.exports = {
             return callBack(null,results);
         });
     },
-    getUserByUserIdforxml:(userID,callback) => {
-        pool.query('select userID,userName,userSurname,userEmail,userTelephone,userTC,userGender,userPassword,userActive from tblUsers where userID = ?;',[userID],
-            (err,results)=>{
-                if(err){
-                    return callback(err);
-                }
-                //console.log(results);
-                return callback(null,results);
-            }
-        );
-    },
-    //getUserByUserId: (userID,callBack)=>{
-    //    pool.query('select userID,userName,userSurname,userEmail,userTelephone,userTC,userGender,userPassword,userActive from tblUsers where userID = ?',[userID],
-    //    (error,results,fields) =>{
-    //        if(error){
-    //            callBack(error);
-    //        }
-    //        return callBack(null,results[0]);
+    //getUserByUserIdforxml:(userID,callback) => {
+    //    pool.query('select userID,userName,userSurname,userEmail,userTelephone,userTC,userGender,userPassword,userActive from tblUsers where userID = ?;',[userID],
+    //        (err,results)=>{
+    //            if(err){
+    //                return callback(err);
+    //            }
+    //            //console.log(results);
+    //            return callback(null,results);
     //        }
     //    );
     //},
+    getUserByUserId: (userID,callBack)=>{
+        pool.query('select userID,userName,userSurname,userEmail,userTelephone,userTC,userGender,userPassword,userActive from tblUsers where userID = ?',[userID],
+        (error,results,fields) =>{
+            if(error){
+                callBack(error);
+            }
+            return callBack(null,results[0]);
+            }
+        );
+    },
     updateUser: (data,callBack) => {
         pool.query('update tblUsers set userName =?,userSurname=?,userEmail=?,userTelephone=?,userTC=?,userGender=?,userPassword=?,userActive=? where userID =?',
         [

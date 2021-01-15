@@ -39,47 +39,47 @@ module.exports = {
             });
         });
     },
-    getUserByUserId:(req,res)=>{
-        const authHeader = req.headers.authorization
-        const token = authHeader.split(' ')[1]
-        var decoded = jwt_decode(token);
-        console.log("decoded.id:",decoded.id);
-        userID = decoded.id;
-        getUserByUserIdforxml(userID,(err,results)=>{
-            if(err){
-                console.log(err);
-                return;
-            }
-            res.set('Content-Type', 'text/xml');
-            try {
-                console.log(results)
-                var xmlObj = builder.buildObject(results)
-                res.send(xmlObj)
-            } catch (err) {
-                res.sendStatus(400)
-            }
-        });
-    },
-    //getUserByUserId: (token,res) =>{
-    //    const userID = token["decoded"].id; 
-    //    //const userID = req.params.userID;
-    //    getUserByUserId(userID, (err,results)=>{
+    //getUserByUserId:(req,res)=>{
+    //    const authHeader = req.headers.authorization
+    //    const token = authHeader.split(' ')[1]
+    //    var decoded = jwt_decode(token);
+    //    console.log("decoded.id:",decoded.id);
+    //    userID = decoded.id;
+    //    getUserByUserIdforxml(userID,(err,results)=>{
     //        if(err){
     //            console.log(err);
     //            return;
     //        }
-    //        if(!results){
-    //            return res.json({
-    //                success:0,
-    //                message: "USER IS NOT FOUND"
-    //            })
+    //        res.set('Content-Type', 'text/xml');
+    //        try {
+    //            console.log(results)
+    //            var xmlObj = builder.buildObject(results)
+    //            res.send(xmlObj)
+    //        } catch (err) {
+    //            res.sendStatus(400)
     //        }
-    //        return res.json({
-    //            success:1,
-    //            data : results
-    //        });
     //    });
     //},
+    getUserByUserId: (token,res) =>{
+        const userID = token["decoded"].id; 
+        //const userID = req.params.userID;
+        getUserByUserId(userID, (err,results)=>{
+            if(err){
+                console.log(err);
+                return;
+            }
+            if(!results){
+                return res.json({
+                    success:0,
+                    message: "USER IS NOT FOUND"
+                })
+            }
+            return res.json({
+                success:1,
+                data : results
+            });
+        });
+    },
     getUsers:(req,res)=>{
         getUsers((err,results)=>{
             if(err){
