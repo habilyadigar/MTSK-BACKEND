@@ -1,5 +1,9 @@
 const pool = require('../../config/database');
-
+const xml2js = require('xml2js');
+const builder = new xml2js.Builder({
+    rootName: 'Shelter',
+    renderOpts: { pretty: false }
+});
 
 
 module.exports = {
@@ -18,6 +22,38 @@ module.exports = {
           }
         );
     },
+    //addXml:(data,callback) => {
+    //    pool.query('insert into tblTempOrder (tOrderPiece,tOrderPrice,userID) values(?,?,?)',
+    //    [
+    //    data.torderPiece,
+    //    data.torderPrice,
+    //    data.userID,
+    //    ],
+    //    (error,results,fields)=>{
+    //        if(error){
+    //           return callback(error)
+    //        }
+    //        console.log(data);
+    //        return callback(null,results[0])
+    //      }
+    //    );
+    //},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //SELECT tOrderID,userID,tOrderPiece,tOrderPrice from tblTempOrder
     //getTmpOrders:(id ,callBack) => {
     //    pool.query('call spGetBasket(?);',
@@ -67,15 +103,12 @@ module.exports = {
     }, 
     deleteAllTmpOrders: (data,callBack) =>{
         //console.log(data);
-        pool.query("call spClearBasket(?);",
-        [
-        data.userID, 
-        ],
+        pool.query("call spClearBasket(?);",[data.userID],
         (error,results,fields) =>{
             if(error){
                 callBack(error);
             }
-            console.log(results)
+            //console.log(results)
             return callBack(null,results['affectedRows']);          
         });
     }, 

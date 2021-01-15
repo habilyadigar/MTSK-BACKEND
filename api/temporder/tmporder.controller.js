@@ -5,10 +5,16 @@ const {
     getTmpOrdersAndAddress,
     addAddress,
     deleteTmpOrders,
-    deleteAllTmpOrders 
+    deleteAllTmpOrders,
+    addXml 
 } = require("./tmporder.service")
 const jwt_decode = require('jwt-decode');
 const { checkToken } = require("../../auth/validation");
+const xml2js = require('xml2js');
+const builder = new xml2js.Builder({
+    rootName: 'Shelter',
+    renderOpts: { pretty: false }
+});
 
 module.exports = {
     getTempOrders:(checkToken,res)=>{
@@ -45,6 +51,35 @@ module.exports = {
             });
         });
     },
+    //addOrderXml: (req,res)=>{
+    //    const body = req.body;
+    //    const authHeader = req.headers.authorization
+    //    const token = authHeader.split(' ')[1]
+    //    var decoded = jwt_decode(token);
+    //    console.log("decoded.id:",decoded.id);
+    //    body.userID = decoded.id;
+    //    
+    //    addXml(body, (err,results)=>{
+    //        console.log(body);
+    //        if(err){
+    //            return res.status(500).json({
+    //                success: 0,
+    //                message: "DATABASE CONNECTION ERROR"
+    //            });
+    //        }
+    //        return res.status(200).json({
+    //            success:1,
+    //            data : body
+    //        });
+    //    });
+//
+    //},
+
+
+
+
+
+
     deleteTempOrder: (req,res)=>{
         const data = req.body;
         const authHeader = req.headers.authorization
@@ -93,8 +128,6 @@ module.exports = {
             });
         });
     },
-
-
 
 
 

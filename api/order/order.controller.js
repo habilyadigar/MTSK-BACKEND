@@ -2,6 +2,7 @@ const {
     addNewOrder,
     order,
     //addCreditCard 
+
 } = require("./order.service")
 const jwt_decode = require('jwt-decode');
 const { checkToken } = require("../../auth/validation");
@@ -57,26 +58,51 @@ module.exports = {
         //    });
         //}
     },
-    getOrderXml:(req,res)=>{
-        const authHeader = req.headers.authorization
-        const token = authHeader.split(' ')[1]
-        var decoded = jwt_decode(token);
-        //console.log("decoded.id:",decoded.id);
-        id = decoded.id;
-        order (id,(err,results)=>{
+    //getOrderXml:(req,res)=>{
+    //    const authHeader = req.headers.authorization
+    //    const token = authHeader.split(' ')[1]
+    //    var decoded = jwt_decode(token);
+    //    //console.log("decoded.id:",decoded.id);
+    //    id = decoded.id;
+    //    order (id,(err,results)=>{
+    //        if(err){
+    //            console.log(err);
+    //            return;
+    //        }
+    //        const copy = []
+    //        results.forEach(element =>{element.orderDate = dateFormat(element.orderDate,"yyyy-mm-d",true), 
+    //            copy.push(element)
+    //        });    
+    //        res.set('Content-Type', 'text/xml');
+    //        try {
+    //            console.log(copy);
+    //            var xmlObj = builder.buildObject(copy);
+    //            res.send(xmlObj);
+    //            
+    //        } catch (err) {
+    //            res.sendStatus(400);
+    //        }
+    //    
+    //    });
+    //}
+    getOrders:(checkToken,res)=>{
+        const id = checkToken["decoded"].id;
+        //console.log(id);
+        order (id, (err,results)=>{
             if(err){
                 console.log(err);
                 return;
             }
-            results[0].orderDate = dateFormat(results[0].orderDate,"yyyy-mm-d",true);     
-            res.set('Content-Type', 'text/xml');
-            try {
-                //console.log(results);
-                var xmlObj = builder.buildObject(results[0]);
-                res.send(xmlObj);
-            } catch (err) {
-                res.sendStatus(400);
-            }
+            return res.json({
+                success:1,
+                data: results
+            });
         });
-    }
+    },
+
+
+
+
+
+
 }

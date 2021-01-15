@@ -1,16 +1,18 @@
 const {
+    addOrderXml,
     addOrder, 
     getAddress,
     getTempOrders,
     ADDress,
     deleteTempOrder,
-    ClearTempOrder
+    ClearTempOrder,
 } =require("./tmporder.controller");
 const router = require("express").Router();
 const {checkToken} = require("../../auth/validation");
 
 router.get('/',checkToken,getTempOrders);
 router.post('/',checkToken,addOrder);
+//router.post('/',checkToken,addOrderXml);
 router.get('/getaddress',getAddress);
 router.post('/delete',checkToken,deleteTempOrder);
 router.get('/clear',checkToken,ClearTempOrder);
