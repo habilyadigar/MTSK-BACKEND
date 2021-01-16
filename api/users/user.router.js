@@ -13,7 +13,7 @@ router.get('/all',checkToken,getUsers);
 router.post('/',createUser);
 router.get('/',checkToken,getUserByUserId);
 router.post('/update',checkToken,updateUser);
-router.delete('/deleteMe',checkToken,deleteUser);
+router.post('/deleteMe',checkToken,deleteUser);
 router.post('/login',login);
 
 
