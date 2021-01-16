@@ -74,10 +74,10 @@ module.exports = {
         }
     );
     },
-    
+
     deleteUser: (id,callBack) =>{
         //console.log(data.userID)
-        pool.query("DELETE FROM MTSK.tblUsers WHERE userID = ?",
+        pool.query("call spUserDelete(?);",
         [id],
         (error,results,fields) =>{
             console.log(results)

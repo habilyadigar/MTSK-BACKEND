@@ -13,12 +13,7 @@ const { sign } = require("jsonwebtoken");
 const { token } = require("morgan");
 const { checkToken } = require("../../auth/validation");
 const jwt_decode = require('jwt-decode');
-const xml2js = require('xml2js');
-const builder = new xml2js.Builder({
-    rootName: 'mtsk',
-    renderOpts: { pretty: false },
-    xmldec : { 'version': '1.0', 'encoding': 'UTF-8', 'standalone': true }
-});
+
 
 module.exports = {
     createUser: (req,res)=>{
@@ -129,7 +124,7 @@ module.exports = {
                 console.log(err);
                 return;
             }
-            console.log(results)      
+            //console.log(results)      
             if(!results){             
                 return res.json({
                     success:0,
