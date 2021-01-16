@@ -74,6 +74,7 @@ module.exports = {
         }
     );
     },
+    
     deleteUser: (id,callBack) =>{
         //console.log(data.userID)
         pool.query("DELETE FROM MTSK.tblUsers WHERE userID = ?",
