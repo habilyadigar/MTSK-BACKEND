@@ -31,17 +31,6 @@ module.exports = {
             return callBack(null,results);
         });
     },
-    //getUserByUserIdforxml:(userID,callback) => {
-    //    pool.query('select userID,userName,userSurname,userEmail,userTelephone,userTC,userGender,userPassword,userActive from tblUsers where userID = ?;',[userID],
-    //        (err,results)=>{
-    //            if(err){
-    //                return callback(err);
-    //            }
-    //            //console.log(results);
-    //            return callback(null,results);
-    //        }
-    //    );
-    //},
     getUserByUserId: (userID,callBack)=>{
         pool.query('select userID,userName,userSurname,userEmail,userTelephone,userTC,userGender,userPassword,userActive from tblUsers where userID = ?',[userID],
         (error,results,fields) =>{

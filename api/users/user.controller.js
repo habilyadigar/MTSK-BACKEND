@@ -127,8 +127,8 @@ module.exports = {
             //console.log(results)      
             if(!results){             
                 return res.json({
-                    success:0,
-                    message: "USER NOT FOUND"
+                    success:1,
+                    message: "USER DELETED"
                 });
             }
             return res.json({

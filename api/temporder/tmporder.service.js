@@ -1,10 +1,4 @@
 const pool = require('../../config/database');
-const xml2js = require('xml2js');
-const builder = new xml2js.Builder({
-    rootName: 'address-xml',
-    renderOpts: { pretty: false }
-});
-const bodyParser = require('body-parser');
 
 module.exports = {
 
@@ -42,7 +36,6 @@ module.exports = {
     //      }
     //    );
     //},
-
 
     //SELECT tOrderID,userID,tOrderPiece,tOrderPrice from tblTempOrder
     //getTmpOrders:(id ,callBack) => {
@@ -125,39 +118,39 @@ module.exports = {
             });    
         });
     },
-    //addAddress:(data,callback) => {
-    //    pool.query('insert into tblAddress (cityID,districtID,openAddress,//userID) values(?,?,?,?)',
-    //    [
-    //    data.cityID,
-    //    data.districtID,
-    //    data.openAddress,
-    //    data.userID,
-    //    ],
-    //    (error,results,fields)=>{
-    //        if(error){
-    //           return callback(error)
-    //        }
-    //        return callback(null,results[0])
-    //      }
-    //    );
-    //},
-    addressXml:(data,callback) => {
-        console.log(data["address-xml"]);
-        pool.query('insert into tblAddress (cityID,districtID,openAddress,userID) values(?,?,?,?)',
+    addAddress:(data,callback) => {
+        pool.query('insert into tblAddress (cityID,districtID,openAddress,      userID) values(?,?,?,?)',
         [
-            data["address-xml"].cityID,
-            data["address-xml"].districtID,
-            data["address-xml"].openAddress,
-            data.userID
+        data.cityID,
+        data.districtID,
+        data.openAddress,
+        data.userID,
         ],
-        (error,results)=>{
+        (error,results,fields)=>{
             if(error){
-                console.log(error);
                return callback(error)
             }
-            return callback(null,results["affactedRows"]);
+            return callback(null,results[0])
           }
         );
     },
+    //addressXml:(data,callback) => {
+    //    console.log(data["address-xml"]);
+    //    pool.query('insert into tblAddress (cityID,districtID,openAddress,userID) //values(?,?,?,?)',
+    //    [
+    //        data["address-xml"].cityID,
+    //        data["address-xml"].districtID,
+    //        data["address-xml"].openAddress,
+    //        data.userID
+    //    ],
+    //    (error,results)=>{
+    //        if(error){
+    //            console.log(error);
+    //           return callback(error)
+    //        }
+    //        return callback(null,results["affactedRows"]);
+    //      }
+    //    );
+    //},
 
 }

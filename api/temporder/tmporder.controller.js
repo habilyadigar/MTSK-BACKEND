@@ -6,8 +6,8 @@ const {
     addAddress,
     deleteTmpOrders,
     deleteAllTmpOrders,
-    addXml,
-    addressXml 
+    //addXml,
+    //addressXml 
 } = require("./tmporder.service")
 const jwt_decode = require('jwt-decode');
 const { checkToken } = require("../../auth/validation");
@@ -143,44 +143,44 @@ module.exports = {
             });
         });
     },
-    //ADDress: (req,res)=>{
-    //    const body = req.body;
-    //    const authHeader = req.headers.authorization
-    //    const token = authHeader.split(' ')[1]
-    //    var decoded = jwt_decode(token);
-    //    //console.log("decoded.id:",decoded.id);
-    //    body.userID = decoded.id;
-    //    addAddress(body, (err,results)=>{
-    //        if(err){
-    //            return res.status(500).json({
-    //                success: 0,
-    //                message: "DATABASE CONNECTION ERROR"
-    //            });
-    //        }
-    //        return res.status(200).json({
-    //            success:1,
-    //            data : body
-    //        });
-    //    });
-    //},
-
-    addAddressXml: (req,res)=>{
+    ADDress: (req,res)=>{
         const body = req.body;
-        //console.log(body);
         const authHeader = req.headers.authorization
         const token = authHeader.split(' ')[1]
         var decoded = jwt_decode(token);
-        body.userID = decoded.id
-        addressXml(body, (err,results)=>{
+        //console.log("decoded.id:",decoded.id);
+        body.userID = decoded.id;
+        addAddress(body, (err,results)=>{
             if(err){
                 return res.status(500).json({
                     success: 0,
                     message: "DATABASE CONNECTION ERROR"
                 });
             }
-            return res.sendStatus(200);
+            return res.status(200).json({
+                success:1,
+                data : body
+            });
         });
     },
+
+    //addAddressXml: (req,res)=>{
+    //    const body = req.body;
+    //    //console.log(body);
+    //    const authHeader = req.headers.authorization
+    //    const token = authHeader.split(' ')[1]
+    //    var decoded = jwt_decode(token);
+    //    body.userID = decoded.id
+    //    addressXml(body, (err,results)=>{
+    //        if(err){
+    //            return res.status(500).json({
+    //                success: 0,
+    //                message: "DATABASE CONNECTION ERROR"
+    //            });
+    //        }
+    //        return res.sendStatus(200);
+    //    });
+    //},
 
 
 }
