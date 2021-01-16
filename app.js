@@ -5,6 +5,12 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 /////////////////////////////////
+const bodyParser = require('body-parser');
+require('body-parser-xml')(bodyParser);
+
+
+
+
 const userRouter = require('./api/users/user.router')
 const tempOrderRouter = require('./api/temporder/tmporder.router')
 const orderRouter = require('./api/order/order.router')
@@ -22,11 +28,15 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(bodyParser.xml());
+
 ////////ROUTESSSSSS/////////////
 app.use('/', indexRouter);
 //app.use('/users', usersRouter);

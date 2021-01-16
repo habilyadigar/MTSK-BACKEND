@@ -9,6 +9,7 @@
   "dependencies": {
     "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",
+    "body-parser-xml": "^2.0.1",
     "cookie-parser": "~1.4.4",
     "date-format": "^3.0.0",
     "dateformat": "^4.4.1",

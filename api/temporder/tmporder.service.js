@@ -1,12 +1,13 @@
 const pool = require('../../config/database');
 const xml2js = require('xml2js');
 const builder = new xml2js.Builder({
-    rootName: 'Shelter',
+    rootName: 'address-xml',
     renderOpts: { pretty: false }
 });
-
+const bodyParser = require('body-parser');
 
 module.exports = {
+
     add:(data,callback) => {
         pool.query('insert into tblTempOrder (tOrderPiece,tOrderPrice,userID) values(?,?,?)',
         [
@@ -18,40 +19,29 @@ module.exports = {
             if(error){
                return callback(error)
             }
-            return callback(null,results)
+            return callback(null,results["affectedRows"]);
           }
         );
     },
     //addXml:(data,callback) => {
-    //    pool.query('insert into tblTempOrder (tOrderPiece,tOrderPrice,userID) values(?,?,?)',
+    //    
+    //    //console.log(data["mtsk-xml"]);
+    //    pool.query('insert into tblTempOrder (tOrderPiece,tOrderPrice,userID) //values(?,?,?)',
     //    [
-    //    data.torderPiece,
-    //    data.torderPrice,
-    //    data.userID,
+    //        data["mtsk-xml"].torderPiece,
+    //        data["mtsk-xml"].torderPrice,
+    //        data.userID
     //    ],
-    //    (error,results,fields)=>{
+    //    (error,results)=>{
     //        if(error){
+    //            console.log(error);
     //           return callback(error)
     //        }
-    //        console.log(data);
-    //        return callback(null,results[0])
+    //        //console.log(results[0]);
+    //        return callback(null,results["affactedRows"]);
     //      }
     //    );
     //},
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     //SELECT tOrderID,userID,tOrderPiece,tOrderPrice from tblTempOrder
@@ -135,21 +125,39 @@ module.exports = {
             });    
         });
     },
-    addAddress:(data,callback) => {
+    //addAddress:(data,callback) => {
+    //    pool.query('insert into tblAddress (cityID,districtID,openAddress,//userID) values(?,?,?,?)',
+    //    [
+    //    data.cityID,
+    //    data.districtID,
+    //    data.openAddress,
+    //    data.userID,
+    //    ],
+    //    (error,results,fields)=>{
+    //        if(error){
+    //           return callback(error)
+    //        }
+    //        return callback(null,results[0])
+    //      }
+    //    );
+    //},
+    addressXml:(data,callback) => {
+        console.log(data["address-xml"]);
         pool.query('insert into tblAddress (cityID,districtID,openAddress,userID) values(?,?,?,?)',
         [
-        data.cityID,
-        data.districtID,
-        data.openAddress,
-        data.userID,
+            data["address-xml"].cityID,
+            data["address-xml"].districtID,
+            data["address-xml"].openAddress,
+            data.userID
         ],
-        (error,results,fields)=>{
+        (error,results)=>{
             if(error){
+                console.log(error);
                return callback(error)
             }
-            return callback(null,results[0])
+            return callback(null,results["affactedRows"]);
           }
         );
-    }
+    },
 
 }
