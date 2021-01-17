@@ -1,4 +1,5 @@
 const pool = require('../../config/database');
+var fs = require('fs');
 
 module.exports = {
 
@@ -17,37 +18,7 @@ module.exports = {
           }
         );
     },
-    //addXml:(data,callback) => {
-    //    
-    //    //console.log(data["mtsk-xml"]);
-    //    pool.query('insert into tblTempOrder (tOrderPiece,tOrderPrice,userID) //values(?,?,?)',
-    //    [
-    //        data["mtsk-xml"].torderPiece,
-    //        data["mtsk-xml"].torderPrice,
-    //        data.userID
-    //    ],
-    //    (error,results)=>{
-    //        if(error){
-    //            console.log(error);
-    //           return callback(error)
-    //        }
-    //        //console.log(results[0]);
-    //        return callback(null,results["affactedRows"]);
-    //      }
-    //    );
-    //},
 
-    //SELECT tOrderID,userID,tOrderPiece,tOrderPrice from tblTempOrder
-    //getTmpOrders:(id ,callBack) => {
-    //    pool.query('call spGetBasket(?);',
-    //    [id],
-    //    (error,results,fields) =>{
-    //        if(error){
-    //           return callBack(error);
-    //        }
-    //        return callBack(null,results[0]);
-    //    });
-    //},
     //stored procedure ile id yi vererek kullanıcıların adresini v  siparişini çekiyorum.
     getTmpOrdersAndAddress: (id ,callBack) => {
         var data = {siparisData:[],addressData : []}
@@ -119,7 +90,7 @@ module.exports = {
         });
     },
     addAddress:(data,callback) => {
-        pool.query('insert into tblAddress (cityID,districtID,openAddress,      userID) values(?,?,?,?)',
+        pool.query('insert into tblAddress (cityID,districtID,openAddress,userID) values(?,?,?,?)',
         [
         data.cityID,
         data.districtID,
@@ -134,23 +105,20 @@ module.exports = {
           }
         );
     },
-    //addressXml:(data,callback) => {
-    //    console.log(data["address-xml"]);
-    //    pool.query('insert into tblAddress (cityID,districtID,openAddress,userID) //values(?,?,?,?)',
-    //    [
-    //        data["address-xml"].cityID,
-    //        data["address-xml"].districtID,
-    //        data["address-xml"].openAddress,
-    //        data.userID
-    //    ],
-    //    (error,results)=>{
-    //        if(error){
-    //            console.log(error);
-    //           return callback(error)
-    //        }
-    //        return callback(null,results["affactedRows"]);
-    //      }
-    //    );
-    //},
+    addAddressWsdl:(args,callback)=>{
+        var userID = args.userID;
+        var cityID = args.cityID;
+        var districtID = args.districtID;
+        var openAddress = args.openAddress;
+
+        console.log("function");
+        var result = [];
+        result.push(userID,cityID,districtID,openAddress);
+
+        pool.query('insert into tblAddress (cityID,districtID,openAddress,userID) values(?,?,?,?)',
+        [userID,cityID,districtID,openAddress]);
+        console.log("RESULT:",result);
+        return callback(result);
+    },
 
 }

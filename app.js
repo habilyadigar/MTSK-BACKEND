@@ -1,27 +1,41 @@
+"use strict";
 //require("dotenv").config()
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const soap = require('soap');
+const{addAddressWsdl}= require("./api/temporder/tmporder.service")
+const fs = require('fs');
+var http = require('http');
 /////////////////////////////////
 const bodyParser = require('body-parser');
 require('body-parser-xml')(bodyParser);
 
-
-
-
 const userRouter = require('./api/users/user.router')
 const tempOrderRouter = require('./api/temporder/tmporder.router')
 const orderRouter = require('./api/order/order.router')
-
-
 /////////////////////////////////
-var indexRouter = require('./routes/index');
+const indexRouter = require('./routes/index');
 //var usersRouter = require('./routes/users');
 
 
-const app = express();
+
+const serviceObject = {
+  addAddressService: {
+            addAddressServiceSoapPort: {
+              addAddress: addAddressWsdl
+          },
+          addAddressServiceSoap12Port: {
+            addAddress: addAddressWsdl
+        }
+    }
+};
+
+var wsdlService = fs.readFileSync('service.wsdl', 'utf8');
+
+var app = express();
 
 
 // view engine setup
@@ -44,10 +58,15 @@ app.use('/', indexRouter);
 app.use('/api/users',userRouter);
 app.use('/api/temporder',tempOrderRouter);
 app.use('/api/order',orderRouter);
-
-
-
 ////////ROUTESSSSSS/////////////
+
+
+var server = app.listen(8000)
+var wsdl_path ="/wsdl"
+soap.listen(server, wsdl_path, serviceObject, wsdlService);
+console.log("Check http://localhost:8000" + wsdl_path+"?wsdl to see if the service is working");
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -64,5 +83,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;
