@@ -109,14 +109,19 @@ module.exports = {
         var userID = args.userID;
         var cityID = args.cityID;
         var districtID = args.districtID;
-        var openAddress = args.openAddress;
-
-        console.log("function");
+        var openAddress = args.openAddress;   
         var result = [];
         result.push(userID,cityID,districtID,openAddress);
-
-        pool.query('insert into tblAddress (cityID,districtID,openAddress,userID) values(?,?,?,?)',
-        [userID,cityID,districtID,openAddress]);
+        pool.query('insert into tblAddress (userID,cityID,districtID,openAddress) values(?,?,?,?)',
+        [userID,cityID,districtID,openAddress],
+        (error,results,fields)=>{
+            if(error){
+               return callback(error)
+            }
+            return callback(null,results)
+          }
+        );
+        console.log("function working");
         console.log("RESULT:",result);
         return callback(result);
     },
