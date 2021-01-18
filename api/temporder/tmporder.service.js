@@ -54,7 +54,7 @@ module.exports = {
             console.log(results)
             return callBack(null,results['affectedRows']);          
         });
-    }, 
+    },
     deleteAllTmpOrders: (data,callBack) =>{
         //console.log(data);
         pool.query("call spClearBasket(?);",[data.userID],

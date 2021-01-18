@@ -20,8 +20,6 @@ const orderRouter = require('./api/order/order.router')
 const indexRouter = require('./routes/index');
 //var usersRouter = require('./routes/users');
 
-
-
 const serviceObject = {
   addAddressService: {
             addAddressServiceSoapPort: {
