@@ -3,13 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-<<<<<<< HEAD
     "start": "node ./bin/www",
     "start:dev": "nodemon ./bin/www"
-=======
-    "start": "node bin/www",
-    "start:dev": "nodemon bin/www"
->>>>>>> b8f2b4a (Update package.json)
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
