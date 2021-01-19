@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <definitions> must be the root of the WSDL document -->
+<wsdl:definitions targetNamespace="http://tempuri.org/" 
+  xmlns:s="http://www.w3.org/2001/XMLSchema" 
+  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" 
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" 
+  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
+  xmlns:tns="http://tempuri.org/" 
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+  xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" 
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <!-- WSDL TYPES: definition of the data types that are used in the web service -->
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="addAddressRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="cityID" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="districtID" type="s:string"/>
+            <s:element minOccurs="1" maxOccurs="1" name="openAddress" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="addAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="unbounded" name="result" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <!-- MESSAGES: defines the data being exchanged between the service and client -->
+  <wsdl:message name="addAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:addAddressRequest"/>
+  </wsdl:message>
+  <wsdl:message name="addAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:addAddressResponse"/>
+  </wsdl:message>
+  <!-- PORT TYPES: defines the complete communication operation (one way/round trip) -->
+  <wsdl:portType name="addAddressSoapPort">
+    <!-- The operation name must be the same as the one specified in the service object -->
+    <wsdl:operation name="addAddress">
+      <wsdl:input message="tns:addAddressSoapIn"/>
+      <wsdl:output message="tns:addAddressSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <!-- BINDING: provides details on how a portType operation will actually be transmitted -->
+  <wsdl:binding name="addAddressServiceSoapBinding" type="tns:addAddressSoapPort">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="addAddress">
+      <soap:operation soapAction="addAddress" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="addAddressServiceSoap12Binding" type="tns:addAddressSoapPort">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="addAddress">
+      <soap12:operation soapAction="addAddress" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <!-- SERVICE:  -->
+  <wsdl:service name="addAddressService">
+    <wsdl:port name="addAddressServiceSoapPort" binding="tns:addAddressServiceSoapBinding">
+      <soap:address location="http://localhost:8000/wsdl"/>
+    </wsdl:port>
+    <wsdl:port name="addAddressServiceSoap12Port" binding="tns:addAddressServiceSoap12Binding">
+      <soap12:address location="http://localhost:8000/wsdl"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
